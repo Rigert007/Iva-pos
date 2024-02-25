@@ -15,7 +15,6 @@ class CustomerDto {
       this.deactivatedAt = customer.deactivatedAt || '';
       this.isDeleted = customer.isDeleted || false;
       this.deletedAt = customer.deletedAt || '';
-      // Assuming invoices is an array of InvoiceDto objects
       this.invoices = customer.invoices ? customer.invoices.map(invoice => new InvoiceDto(invoice)) : [];
     }
   }

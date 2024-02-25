@@ -5,7 +5,7 @@ class CreateItemDto {
         this.code = item.code || '';
         this.price = item.price || 0.0;
         this.description = item.description || '';
-        this.itemType = item.itemType || 0; // Assuming a default value for enum
+        this.itemType = item.itemType || 0; 
         this.vatRate = item.vatRate || 0.0;
         this.weight = item.weight || 0.0;
         this.length = item.length || 0.0;
@@ -22,7 +22,7 @@ class CreateItemDto {
         this.countryOfOrigin = item.countryOfOrigin || '';
         this.warranty = item.warranty || '';
         this.supplier = item.supplier || '';
-        this.uom = item.uom || ''; // Unit of measurement
+        this.uom = item.uom || ''; 
     }
 }
 

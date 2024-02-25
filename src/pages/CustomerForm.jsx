@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import CreateCustomerDto from '../models/CreateCustomerDto'; // Make sure this path is correct based on your project structure
+import CreateCustomerDto from '../models/CreateCustomerDto'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const CustomerForm = () => {
   const [customer, setCustomer] = useState({
@@ -23,19 +24,14 @@ const CustomerForm = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    
-    // Create the DTO from the form state
+
     const customerData = new CreateCustomerDto(customer);
     
-    // Use a relative URL path which will be proxied to the configured server in package.json
     const apiEndpoint = '/api/Customers';
-    
-    // Use Axios to send a POST request
+
     axios.post(apiEndpoint, customerData)
       .then(response => {
-        // Handle the response
         console.log('Customer created:', response.data);
-        // Optionally reset the form or handle the successful submission
         setCustomer({
           name: '',
           email: '',
@@ -47,20 +43,20 @@ const CustomerForm = () => {
         });
       })
       .catch(error => {
-        // Handle any errors
         console.error('Error creating customer:', error);
       });
   };
 
 
   return (
-    <div>
+    <div className="container mt-3">
       <h2>Create Customer</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="name">Name:</label>
+      <form onSubmit={handleSubmit} className="needs-validation" noValidate>
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label">Name:</label>
           <input
             type="text"
+            className="form-control"
             id="name"
             name="name"
             value={customer.name}
@@ -68,10 +64,11 @@ const CustomerForm = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">Email:</label>
           <input
             type="email"
+            className="form-control"
             id="email"
             name="email"
             value={customer.email}
@@ -79,57 +76,62 @@ const CustomerForm = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="phone">Phone:</label>
+        <div className="mb-3">
+          <label htmlFor="phone" className="form-label">Phone:</label>
           <input
             type="tel"
+            className="form-control"
             id="phone"
             name="phone"
             value={customer.phone}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="address">Address:</label>
+        <div className="mb-3">
+          <label htmlFor="address" className="form-label">Address:</label>
           <input
             type="text"
+            className="form-control"
             id="address"
             name="address"
             value={customer.address}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="city">City:</label>
+        <div className="mb-3">
+          <label htmlFor="city" className="form-label">City:</label>
           <input
             type="text"
+            className="form-control"
             id="city"
             name="city"
             value={customer.city}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="postalCode">Postal Code:</label>
+        <div className="mb-3">
+          <label htmlFor="postalCode" className="form-label">Postal Code:</label>
           <input
             type="text"
+            className="form-control"
             id="postalCode"
             name="postalCode"
             value={customer.postalCode}
             onChange={handleChange}
           />
         </div>
-        <div>
-          <label htmlFor="country">Country:</label>
+        <div className="mb-3">
+          <label htmlFor="country" className="form-label">Country:</label>
           <input
             type="text"
+            className="form-control"
             id="country"
             name="country"
             value={customer.country}
             onChange={handleChange}
           />
         </div>
-        <button type="submit">Create Customer</button>
+        <button type="submit" className="btn btn-primary">Create Customer</button>
       </form>
     </div>
   );
