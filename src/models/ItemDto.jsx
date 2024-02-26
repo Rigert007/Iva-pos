@@ -1,9 +1,9 @@
-const ItemType = {
+export const ItemType = {
     TYPE_0: 0,
     TYPE_1: 1
 };
 
-class ItemDto {
+export class ItemDto {
     constructor(item) {
       this.id = item.id || 0;
       this.name = item.name || '';
@@ -37,4 +37,3 @@ class ItemDto {
     }
 }
   
-export { ItemDto, ItemType };

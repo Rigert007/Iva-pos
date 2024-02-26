@@ -9,16 +9,16 @@ const Navbar = () => {
             <h3 style={{color:"white"}}>Iva Pos</h3>
           <ul className="navbar-nav">
             <li className="nav-item">
-              <a className="nav-link" aria-current="page" href="/Dashboard">Dashboard</a>
+              <a className="nav-link" aria-current="page" href="/DashboardForm">Dashboard</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/InvoiceForm">Invoices</a>
+              <a className="nav-link" href="/Invoice">Invoices</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/CustomerForm">Customers</a>
+              <a className="nav-link" href="/Customer">Customers</a>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="/ItemForm">Items</a>
+              <a className="nav-link" href="/Item">Items</a>
             </li>
           </ul>
         </div>

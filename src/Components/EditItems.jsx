@@ -1,85 +1,68 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import CreateItemDto from '../models/CreateItemDto';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const ItemForm = () => {
+const EditItem = () => {
   const [item, setItem] = useState({
-    id: 0,
-  name: '',
-  code: '',
-  price: 0,
-  description: '',
-  isActive: false,
-  deactivatedAt: '',
-  isDeleted: false,
-  deletedAt: '',
-  itemType: 0,
-  vatRate: 0,
-  createdAt: '',
-  updatedAt: '',
-  weight: 0,
-  length: 0,
-  width: 0,
-  height: 0,
-  sku: '',
-  barcode: '',
-  manufacturer: '',
-  brand: '',
-  model: '',
-  color: '',
-  size: '',
-  material: '',
-  countryOfOrigin: '',
-  warranty: '',
-  supplier: '',
-  uom: '',
+    name: '',
+    code: '',
+    price: 0, // Assuming this should not be null but 0 is okay as a starting value.
+    description: '',
+    isActive: false,
+    deactivatedAt: '', // If this is a date, you might want to start with an empty string or a valid date string.
+    isDeleted: false,
+    deletedAt: '', // Same as deactivatedAt, use a valid date string or empty string.
+    itemType: 0,
+    vatRate: 0,
+    createdAt: '', // Use a valid date string or empty string.
+    updatedAt: '', // Use a valid date string or empty string.
+    weight: 0,
+    length: 0,
+    width: 0,
+    height: 0,
+    sku: '',
+    barcode: '',
+    manufacturer: '',
+    brand: '',
+    model: '',
+    color: '',
+    size: '',
+    material: '',
+    countryOfOrigin: '',
+    warranty: '',
+    supplier: '',
+    uom: '',
   });
+  const { itemId } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchItem = async () => {
+      try {
+        const response = await axios.get(`/api/items/${itemId}`);
+        setItem(response.data);
+      } catch (error) {
+        console.error('Error fetching item:', error);
+      }
+    };
+
+    fetchItem();
+  }, [itemId]);
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
-    const isCheckbox = type === 'checkbox';
-    setItem({
-      ...item,
-      [name]: isCheckbox ? checked : value,
-    });
+    const newValue = type === 'checkbox' ? checked : value;
+    setItem({ ...item, [name]: newValue });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const itemDto = new CreateItemDto(item);
-
     try {
-      const response = await axios.post('/api/items', itemDto);
-      console.log('Item created:', response.data);
-      setItem({
-        name: '',
-        code: '',
-        price: 0,
-        description: '',
-        itemType: 0,
-        vatRate: 0,
-        weight: 0,
-        length: 0,
-        width: 0,
-        height: 0,
-        sku: '',
-        barcode: '',
-        manufacturer: '',
-        brand: '',
-        model: '',
-        color: '',
-        size: '',
-        material: '',
-        countryOfOrigin: '',
-        warranty: '',
-        supplier: '',
-        uom: '',
-        
-      });
+      await axios.put(`/api/items/${itemId}`, item);
+      navigate('/Item');
     } catch (error) {
-      console.error('Error creating item:', error);
+      console.error('Error updating item:', error.response ? error.response.data : error.message);
     }
   };
 
@@ -94,7 +77,7 @@ const ItemForm = () => {
             className="form-control"
             id="name"
             name="name"
-            value={item.name}
+            value={item.name || ''}
             onChange={handleInputChange}
             required
           />
@@ -106,7 +89,7 @@ const ItemForm = () => {
             className="form-control"
             id="code"
             name="code"
-            value={item.code}
+            value={item.code || ''}
             onChange={handleInputChange}
           />
         </div>
@@ -286,8 +269,6 @@ const ItemForm = () => {
         onChange={handleInputChange}
       />
     </div>
-
-    {/* Manufacturer */}
     <div className="mb-3">
       <label htmlFor="manufacturer" className="form-label">Manufacturer:</label>
       <input
@@ -398,11 +379,10 @@ const ItemForm = () => {
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit" className="btn btn-primary">Create Item</button>
+        <button type="submit" className="btn btn-primary">Update Item</button>
       </form>
     </div>
   );
 };
 
-export default ItemForm;
-
+export default EditItem;
