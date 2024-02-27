@@ -1,5 +1,5 @@
-import React from 'react';
-import '../style/InfoCards.css';
+import React from "react";
+import "../style/InfoCards.css";
 
 const InfoCard = ({ title, value }) => {
     return (

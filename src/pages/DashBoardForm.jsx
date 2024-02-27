@@ -1,8 +1,7 @@
-// Dashboard.js
 import React from "react";
-import PieChart from '../Components/PieChart.jsx'
-import InfoCard from "../Components/InfoCards.jsx"; 
-import '../style/Dashboard.css'; 
+import PieChart from "../Components/PieChart.jsx";
+import InfoCard from "../Components/InfoCards.jsx";
+import "../style/Dashboard.css";
 
 const Dashboard = () => {
     return (
@@ -16,7 +15,7 @@ const Dashboard = () => {
             </div>
             <PieChart />
         </div>
-    )
-}
+    );
+};
 
 export default Dashboard;

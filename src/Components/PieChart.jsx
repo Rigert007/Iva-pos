@@ -1,13 +1,28 @@
-import React from 'react';
-import { PieChart, Pie, Cell  } from 'recharts';
-import '../style/PieChart.css';
+import React from "react";
+import { PieChart, Pie, Cell } from "recharts";
+import "../style/PieChart.css";
 
-const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index, payload }) => {
+const renderCustomizedLabel = ({
+    cx,
+    cy,
+    midAngle,
+    innerRadius,
+    outerRadius,
+    percent,
+    index,
+    payload,
+}) => {
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * Math.PI / 180);
-    const y = cy + radius * Math.sin(-midAngle * Math.PI / 180);
+    const x = cx + radius * Math.cos((-midAngle * Math.PI) / 180);
+    const y = cy + radius * Math.sin((-midAngle * Math.PI) / 180);
     return (
-        <text x={x} y={y} fill="black" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        <text
+            x={x}
+            y={y}
+            fill="black"
+            textAnchor={x > cx ? "start" : "end"}
+            dominantBaseline="central"
+        >
             {`${payload.name}: ${payload.pcs} pcs`}
         </text>
     );
@@ -15,13 +30,13 @@ const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, per
 
 const PieChartForm = () => {
     const data = [
-        { name: 'Drinks', pcs: 1000 },
-        { name: 'Food', pcs: 700 },
-        { name: 'Delivery', pcs: 500 },
-        { name: 'Pick up', pcs: 100 },
+        { name: "Drinks", pcs: 1000 },
+        { name: "Food", pcs: 700 },
+        { name: "Delivery", pcs: 500 },
+        { name: "Pick up", pcs: 100 },
     ];
 
-    const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
     return (
         <div className="chart-container  mt-5 text-center">
@@ -38,7 +53,10 @@ const PieChartForm = () => {
                     dataKey="pcs"
                 >
                     {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                        <Cell
+                            key={`cell-${index}`}
+                            fill={COLORS[index % COLORS.length]}
+                        />
                     ))}
                 </Pie>
             </PieChart>
