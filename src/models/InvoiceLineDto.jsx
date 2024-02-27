@@ -10,7 +10,7 @@ class InvoiceLineDto {
       this.uom = invoiceLine.uom || '';
       this.unitPrice = invoiceLine.unitPrice || 0.0;
       this.lineTotal = invoiceLine.lineTotal || 0.0;
-      this.discountPercent = invoiceLine.discountPercent || 0.0;
+      this.discountPercent = invoiceLine.discountPercent || 0;
       this.discountTotalAmount = invoiceLine.discountTotalAmount || 0.0;
       this.totalAfterDiscount = invoiceLine.totalAfterDiscount || 0.0;
       this.notes = invoiceLine.notes || '';

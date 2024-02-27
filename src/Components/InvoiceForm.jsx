@@ -19,35 +19,66 @@ const InvoiceForm = () => {
         itemId: 0,
         itemName: '',
         itemCode: '',
-        vatRate: 0,
+        vatRate: 0.0,
         quantity: 0,
         uom: '',
         unitPrice: 0,
         discountPercent: 0,
-        notes: ''
+        discountTotalAmount: 0,
+        totalAfterDiscount: 0,
+        notes: '',
+        taxAmount: 0,
+        totalIncludingTax: 0
       }
-    ]
+    ],
+    totalWoVat: 0,
   });
 
   const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-
-    const inputValue = type === 'checkbox' ? checked : value;
+  const { name, value, type, checked } = event.target;
+  const inputValue = type === 'checkbox' ? checked : value;
 
     setInvoice({ ...invoice, [name]: inputValue });
   };
+  const calculateTotals = () => {
+    let newTotalAmount = 0;
+    let newTotalVatAmount = 0;
+    let newTotalDiscountAmount = 0;
+    let newTotalAfterDiscount = 0;
 
-  const handleInvoiceLinesChange = (index, event) => {
+    invoice.invoiceLines.forEach(line => {
+      const lineVatAmountUnit = line.unitPrice * line.vatRate;
+      const lineVatAmount = lineVatAmountUnit * line.quantity;
+      const lineTotal = line.unitPrice * line.quantity;
+      const lineTotalAll = lineTotal + lineVatAmount;
+      const lineDiscountAmount = lineTotalAll * line.discountPercent;
+      const lineTotalAfterDiscount = lineTotalAll - lineDiscountAmount ;
+
+      newTotalAmount += lineTotalAll;
+      newTotalVatAmount += lineVatAmount;
+      newTotalDiscountAmount += lineDiscountAmount;
+      newTotalAfterDiscount += lineTotalAfterDiscount;
+    });
+
+    setInvoice(prevInvoice => ({
+      ...prevInvoice,
+      totalAmount: newTotalAmount,
+      totalVatAmount: newTotalVatAmount,
+      totalDiscountAmount: newTotalDiscountAmount,
+      totalAfterDiscount: newTotalAfterDiscount
+    }));
+  };
+    const handleInvoiceLinesChange = (index, event) => {
     const { name, value } = event.target;
-
     const newInvoiceLines = invoice.invoiceLines.map((lineItem, lineIndex) => {
       if (index === lineIndex) {
         return { ...lineItem, [name]: value };
       }
       return lineItem;
     });
-
     setInvoice({ ...invoice, invoiceLines: newInvoiceLines });
+    console.log('New invoice state:', newInvoiceLines);
+    calculateTotals(); 
   };
 
   const handleSubmit = (event) => {
@@ -60,28 +91,33 @@ const InvoiceForm = () => {
       .then(response => {
         console.log('Invoice created:', response.data);
         setInvoice({
-            invoiceDate: '',
-            invoiceNumber: '',
-            customerId: 0,
-            totalAmount: 0,
-            totalVatAmount: 0,
-            totalDiscountAmount: 0,
-            isPaid: false,
-            notes: '',
-            user: '',
-            invoiceLines: [
-              {
-                itemId: 0,
-                itemName: '',
-                itemCode: '',
-                vatRate: 0,
-                quantity: 0,
-                uom: '',
-                unitPrice: 0,
-                discountPercent: 0,
-                notes: ''
-              }
-            ]
+          invoiceDate: '',
+          invoiceNumber: '',
+          customerId: 0,
+          totalAmount: 0,
+          totalVatAmount: 0,
+          totalDiscountAmount: 0,
+          isPaid: false,
+          notes: '',
+          user: '',
+          invoiceLines: [
+            {
+              itemId: 0,
+              itemName: '',
+              itemCode: '',
+              vatRate: 0.0,
+              quantity: 0,
+              uom: '',
+              unitPrice: 0,
+              discountPercent: 0,
+              discountTotalAmount: 0,
+              totalAfterDiscount: 0,
+              notes: '',
+              taxAmount: 0,
+              totalIncludingTax: 0
+            }
+          ],
+          totalWoVat: 0,
         });
       })
       .catch(error => {
@@ -132,35 +168,34 @@ const InvoiceForm = () => {
         <div className="mb-3">
           <label htmlFor="totalAmount" className="form-label">Total Amount:</label>
           <input
-            type="number"
             className="form-control"
+            type="number"
             id="totalAmount"
             name="totalAmount"
             value={invoice.totalAmount}
-            onChange={handleInputChange}
-            required
+            readOnly 
           />
         </div>
         <div className="mb-3">
           <label htmlFor="totalVatAmount" className="form-label">Total VAT Amount:</label>
           <input
-            type="number"
             className="form-control"
+            type="number"
             id="totalVatAmount"
             name="totalVatAmount"
             value={invoice.totalVatAmount}
-            onChange={handleInputChange}
+            readOnly 
           />
         </div>
         <div className="mb-3">
           <label htmlFor="totalDiscountAmount" className="form-label">Total Discount Amount:</label>
           <input
-            type="number"
             className="form-control"
+            type="number"
             id="totalDiscountAmount"
             name="totalDiscountAmount"
             value={invoice.totalDiscountAmount}
-            onChange={handleInputChange}
+            readOnly 
           />
         </div>
         <div className="mb-3 form-check">
@@ -287,6 +322,28 @@ const InvoiceForm = () => {
             onChange={e => handleInvoiceLinesChange(index, e)}
             />
         </div>
+        <div className="mb-3">
+            <label htmlFor={`discountTotalAmount-${index}`}>Discount Total Amount:</label>
+            <input
+            type="number"
+            className="form-control"
+            id={`discountTotalAmount-${index}`}
+            name="discountTotalAmount"
+            value={line.discountTotalAmount}
+            onChange={e => handleInvoiceLinesChange(index, e)}
+            />
+            <div className="mb-3">
+              <label htmlFor={`totalAfterDiscount-${index}`}>Total After Discount:</label>
+                <input
+                  type="number"
+                  className="form-control"
+                  id={`totalAfterDiscount-${index}`}
+                  name="totalAfterDiscount"
+                  value={line.totalAfterDiscount}
+                  readOnly
+                />
+            </div>
+        </div>
               <div className="mb-3">
                 <label htmlFor={`notes-${index}`}>Notes:</label>
                 <input
@@ -298,9 +355,42 @@ const InvoiceForm = () => {
                   onChange={e => handleInvoiceLinesChange(index, e)}
                 />
               </div>
+              <div className="mb-3">
+                <label htmlFor={`taxAmount-${index}`}>Tax Amount:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id={`taxAmount-${index}`}
+                  name="taxAmount"
+                  value={line.taxAmount}
+                  onChange={e => handleInvoiceLinesChange(index, e)}
+                />
+              </div>
+              <div className="mb-3">
+                <label htmlFor={`totalIncludingTax-${index}`}>Notes:</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id={`totalIncludingTax-${index}`}
+                  name="totalIncludingTax"
+                  value={line.totalIncludingTax}
+                  onChange={e => handleInvoiceLinesChange(index, e)}
+                />
+              </div>
             </div>
           </div>
         ))}
+        <div className="mb-3">
+          <label htmlFor="totalWoVat" className="form-label">Total Wo Vat:</label>
+          <input
+            className="form-control"
+            type="number"
+            id="totalWoVat"
+            name="totalWoVat"
+            value={invoice.totalWoVat}
+            readOnly
+          />
+        </div>
         <button type="submit" className="btn btn-primary">Create Invoice</button>
       </form>
     </div>
