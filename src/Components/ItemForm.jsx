@@ -47,13 +47,17 @@ const ItemForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     const itemDto = new CreateItemDto(item);
-
     try {
-      const response = await axios.post('/api/items', itemDto);
+      const jsonItemDto = JSON.stringify(itemDto);
+      const response = await axios.post('/api/items', jsonItemDto, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       console.log('Item created:', response.data);
       setItem({
+        ...{
         name: '',
         code: '',
         price: 0,
@@ -77,6 +81,7 @@ const ItemForm = () => {
         supplier: '',
         uom: '',
         
+        }
       });
     } catch (error) {
       console.error('Error creating item:', error);

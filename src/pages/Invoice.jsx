@@ -4,6 +4,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BsPencilSquare } from 'react-icons/bs';
 import InvoiceDto from '../models/InvoiceDto';
+import '../style/Invoice.css'
 
 const InvoicesTable = () => {
   const [invoices, setInvoices] = useState([]);
@@ -41,6 +42,7 @@ const InvoicesTable = () => {
         <h2>Invoices List</h2>
         <button className="btn btn-primary" onClick={navigateToInvoiceForm}>Add Invoice</button>
       </div>
+      <div className="table-responsive-custom">
       <table className="table">
         <thead>
           <tr>
@@ -61,17 +63,17 @@ const InvoicesTable = () => {
         <tbody>
           {invoices.map(invoice => (
             <tr key={invoice.id}>
-              <td>{invoice.id}</td>
-              <td>{formatDate(invoice.invoiceDate)}</td>
-              <td>{invoice.invoiceNumber}</td>
-              <td>{invoice.customerId}</td>
-              <td>{invoice.totalAmount}</td>
-              <td>{invoice.totalVatAmount}</td>
-              <td>{invoice.totalDiscountAmount}</td>
-              <td>{invoice.isPaid ? 'Yes' : 'No'}</td>
-              <td>{formatDate(invoice.createdAt)}</td>
-              <td>{formatDate(invoice.updatedAt)}</td>
-              <td>{invoice.user}</td>
+              <td data-label="ID">{invoice.id}</td>
+              <td data-label="Invoice Date">{formatDate(invoice.invoiceDate)}</td>
+              <td data-label="Invoice Number">{invoice.invoiceNumber}</td>
+              <td data-label="Customer Id">{invoice.customerId}</td>
+              <td data-label="Total Amount">{invoice.totalAmount}</td>
+              <td data-label="Total Vat Amount">{invoice.totalVatAmount}</td>
+              <td data-label="Total Discount Amount">{invoice.totalDiscountAmount}</td>
+              <td data-label="IsP aid">{invoice.isPaid ? 'Yes' : 'No'}</td>
+              <td data-label="Created At">{formatDate(invoice.createdAt)}</td>
+              <td data-label="Updated At">{formatDate(invoice.updatedAt)}</td>
+              <td data-label="User">{invoice.user}</td>
               <td>
                 <BsPencilSquare
                   className="me-2 text-primary"
@@ -83,6 +85,7 @@ const InvoicesTable = () => {
           ))}
         </tbody>
       </table>
+      </div>
     </div>
   );
 };

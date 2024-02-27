@@ -7,16 +7,16 @@ const EditItem = () => {
   const [item, setItem] = useState({
     name: '',
     code: '',
-    price: 0, // Assuming this should not be null but 0 is okay as a starting value.
+    price: 0, 
     description: '',
     isActive: false,
-    deactivatedAt: '', // If this is a date, you might want to start with an empty string or a valid date string.
+    deactivatedAt: '', 
     isDeleted: false,
-    deletedAt: '', // Same as deactivatedAt, use a valid date string or empty string.
+    deletedAt: '',
     itemType: 0,
     vatRate: 0,
-    createdAt: '', // Use a valid date string or empty string.
-    updatedAt: '', // Use a valid date string or empty string.
+    createdAt: '', 
+    updatedAt: '', 
     weight: 0,
     length: 0,
     width: 0,

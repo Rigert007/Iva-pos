@@ -76,19 +76,19 @@ const ItemsTable = () => {
         <tbody>
           {items.map(item => (
             <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.code}</td>
-              <td>{item.price}</td>
-              <td>{item.description}</td>
-              <td>{item.isActive ? 'Yes' : 'No'}</td>
-              <td>{formatDate(item.deactivatedAt)}</td>
-              <td>{item.isDeleted ? 'Yes' : 'No'}</td>
-              <td>{formatDate(item.deletedAt)}</td>
-              <td>{item.itemType}</td>
-              <td>{item.vatRate}</td>
-              <td>{formatDate(item.createdAt)}</td>
-              <td>{formatDate(item.updatedAt)}</td>
+              <td data-label="ID">{item.id}</td>
+              <td data-label="Name">{item.name}</td>
+              <td data-label="Code">{item.code}</td>
+              <td data-label="Price">{item.price}</td>
+              <td data-label="Description">{item.description}</td>
+              <td data-label="Is Active">{item.isActive ? 'Yes' : 'No'}</td>
+              <td data-label="Deactivated At">{formatDate(item.deactivatedAt)}</td>
+              <td data-label="Is Deleted">{item.isDeleted ? 'Yes' : 'No'}</td>
+              <td data-label="Deleted At">{formatDate(item.deletedAt)}</td>
+              <td data-label="Item Type">{item.itemType}</td>
+              <td data-label="Vat Rate">{item.vatRate}</td>
+              <td data-label="Created At">{formatDate(item.createdAt)}</td>
+              <td data-label="Updated At">{formatDate(item.updatedAt)}</td>
               <td>
                 <BsPencilSquare
                   className="me-2 text-primary"

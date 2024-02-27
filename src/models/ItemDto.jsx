@@ -11,9 +11,9 @@ export class ItemDto {
       this.price = item.price || 0.0;
       this.description = item.description || '';
       this.isActive = item.isActive || false;
-      this.deactivatedAt = item.deactivatedAt || '';
+      this.deactivatedAt = item.deactivatedAt || new Date().toISOString();
       this.isDeleted = item.isDeleted || false;
-      this.deletedAt = item.deletedAt || '';
+      this.deletedAt = item.deletedAt || new Date().toISOString();
       this.itemType = ItemType[item.itemType] || ItemType.TYPE_0;
       this.vatRate = item.vatRate || 0.0;
       this.createdAt = item.createdAt || new Date().toISOString();

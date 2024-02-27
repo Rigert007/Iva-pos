@@ -1,7 +1,7 @@
 import './App.css';
 import Customer from './pages/Customer';
 import CustomerForm from './Components/CustomerForm'
-// import DashBoardForm from './pages/DashBoardForm';
+import DashBoardForm from './pages/DashBoardForm';
 import Invoice from './pages/Invoice';
 import InvoiceForm from './Components/InvoiceForm';
 import Item from './pages/Item'
@@ -22,7 +22,7 @@ function App() {
           <Routes>
             <Route path='/CustomerForm' element={<CustomerForm />}/>
             <Route path='/Customer' element={<Customer />}/>
-            {/* <Route path='/DashBoardForm' element={<DashBoardForm />}/> */}
+            <Route path='/DashBoardForm' element={<DashBoardForm />}/>
             <Route path='/Invoice' element={<Invoice />}/>
             <Route path='/InvoiceForm' element={<InvoiceForm />}/>
             <Route path='/Item' element={<Item />}/>

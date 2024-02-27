@@ -72,15 +72,15 @@ const CustomersTable = () => {
         <tbody>
           {customers.map(customer => (
             <tr key={customer.id}>
-              <td>{customer.id}</td>
-              <td>{customer.name}</td>
-              <td>{customer.email}</td>
-              <td>{customer.phone}</td>
-              <td>{customer.address}</td>
-              <td>{customer.city}</td>
-              <td>{customer.postalCode}</td>
-              <td>{customer.country}</td>
-              <td>{formatDate(customer.createdAt)}</td>
+              <td data-label="ID">{customer.id}</td>
+              <td data-label="Name">{customer.name}</td>
+              <td data-label="Email">{customer.email}</td>
+              <td data-label="Phone">{customer.phone}</td>
+              <td data-label="Address">{customer.address}</td>
+              <td data-label="City">{customer.city}</td>
+              <td data-label="Postal Code">{customer.postalCode}</td>
+              <td data-label="Country">{customer.country}</td>
+              <td data-label="Created At">{formatDate(customer.createdAt)}</td>
               <td>
                 <BsPencilSquare
                   className="me-2 text-primary"
